@@ -1,0 +1,55 @@
+/*Jonathan Pereira dos Santos */ 
+
+
+CREATE DATABASE IF NOT EXISTS  editora;
+
+USE editora;
+
+CREATE TABLE Livraria(
+IDLivraria INT NOT NULL 
+);
+
+
+CREATE TABLE Livros(
+IDLivro INT NOT NULL PRIMARY KEY ,
+Auto VARCHAR(40)
+
+);
+
+
+CREATE TABLE NotasFiscais(
+CodigoVenda INT NOT NULL PRIMARY KEY,
+DataVenda DATETIME NOT NULL ,
+IDLivraria INT NOT NULL 
+
+);
+
+
+CREATE TABLE ItensNF(
+CodigoVenda INT NOT NULL,
+IDLivro INT NOT NULL ,
+QtdeVendida INT NOT NULL
+
+);
+
+
+ALTER TABLE Livraria 
+ADD CONSTRAINT PK_IDLivraria PRIMARY KEY (IDLivraria),
+ADD COLUMN NomeLivraria VARCHAR(40) NOT NULL ,
+ADD COLUMN Endereco VARCHAR(50) NOT NULL ,
+ADD COLUMN CNPJ VARCHAR(18) NOT NULL ,
+ADD CONSTRAINT uk_Livraria UNIQUE KEY (CNPJ);
+
+
+
+ALTER TABLE Livros
+ADD COLUMN TituloLivro VARCHAR(70) NOT NULL  AFTER IDLivro,
+ADD COLUMN PrecoUnitario DECIMAL (5,2) NOT NULL ;
+
+
+ALTER TABLE ItensNF
+ADD CONSTRAINT fk_ItensNF_Livros FOREIGN KEY (IDLivro)
+REFERENCES Livros (IDLivro),
+
+ADD CONSTRAINT k_ItensNF_NotasFiscais FOREIGN KEY (CodigoVenda)
+REFERENCES NotasFiscais (CodigoVenda);
